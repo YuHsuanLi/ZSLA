@@ -27,7 +27,7 @@ cd ZSLA
 Their are two stages in ZSLA, the first stage is to obtain the seen attribute directors and the second stage is to train intersection/union models and use them to syntheize the unseen attribute directors.
 Here we use CUB dataset as example:
 #### stage 1
-If want to run ɑ-CLEVR dataset, add --data_type=alpha-CLEVR and change the cpt_weight from 0.2 to 1 (--cpt_weight=1)\\
+If want to run ɑ-CLEVR dataset, add --data_type=alpha-CLEVR and change the cpt_weight from 0.2 to 1 (--cpt_weight=1)  
 train: 
 ```bash
 python main.py --device=cuda:5 --stage=1 --is_normalized --is_abs --use_location_info --cpt_weight=0.2 --umc_start=0  --output_PATH=./stage1_cub
