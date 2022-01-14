@@ -59,10 +59,10 @@ python main.py --test --baseline --method=A-ESZSL --device=cuda:5 --use_location
 #### A-LAGO
 train: 
 ```bash
-python main.py --baseline --method=A-LAGO --device=cuda:5 --use_location_info --output_PATH=/eva_data/hdd4/yu_hsuan_li/logic_kernel/output/A_LAGO_cub 
+python main.py --baseline --method=A-LAGO --device=cuda:5 --use_location_info --output_PATH=./A_LAGO_cub 
 ```
 test: 
 ```bash
-python main.py --test --baseline --method=A-LAGO --device=cuda:5 --use_location_info --baseline_PATH=/eva_data/hdd4/yu_hsuan_li/logic_kernel/output/A_LAGO_cub/model_5000.pth
+python main.py --test --baseline --method=A-LAGO --device=cuda:5 --use_location_info --baseline_PATH=./A_LAGO_cub/model_5000.pth
 ```
 
