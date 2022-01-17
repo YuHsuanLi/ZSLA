@@ -1,4 +1,4 @@
-name: pytorch160_py36
+name: ZSLA
 channels:
   - pytorch
   - anaconda

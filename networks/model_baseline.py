@@ -119,9 +119,17 @@ class ATT_zeroshot(nn.Module):
         return base_att_score[:, self.use_base_attribute_idx], att_score[:, use_attribute_idx], base_attention[:, self.use_base_attribute_idx], att_attention[:, use_attribute_idx]
     
     def get_loss(self, att_score, attribute_labels):
+        '''
+        att_score: tensor[BSXseen_att_num]
+        attribute_labels: tensor[BSXseen_att_num]
+        return: tensor[]
+        '''
         if self.method == 'A-ESZSL':
             image_attr_pred =  torch.sigmoid(att_score)
             loss = Loss.CE(image_attr_pred, attribute_labels, balanced=False)
+            print(type(loss))
+            print(loss.shape)
+            exit(0)
             return loss
         elif self.method == 'A-LAGO':
             image_attr_pred =  torch.sigmoid(25*(2*att_score-1)) #25->156 
