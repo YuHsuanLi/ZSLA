@@ -17,6 +17,8 @@ Activate the environment ZSLA
 ```bash
 conda activate ZSLA
 ```
+## data download
+Download the zip file of data folder from the [link](). Unzip the file and put the folder in the path ZSLA/data
 
 ## run
 Go to the ZSLA folder
