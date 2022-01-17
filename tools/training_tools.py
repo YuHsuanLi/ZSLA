@@ -1,7 +1,7 @@
 import numpy as np
 import torch 
 import torch.nn as nn
-from tools import Part_loader_correct as cub_dataloader
+from tools import Part_loader as cub_dataloader
 #import data_loader as fonts_dataloader
 #from networks import lago_network
 import os
@@ -20,39 +20,32 @@ import scipy.io
 def get_CUB_dataset():
     ########################################################
     # Get Data
-    print('Loading Data ...')
-    
-    train_data = cub_dataloader.Class_Dataset('train_val', renumber=True, dataset_root_path='/eva_data/hdd4/yu_hsuan_li/logic_kernel/dataset/CUB')
-    train_loader = torch.utils.data.DataLoader(train_data, batch_size = 64, shuffle=True, num_workers=8)
-
-    val_data = cub_dataloader.Class_Dataset('test_unseen', renumber=True, dataset_root_path='/eva_data/hdd4/yu_hsuan_li/logic_kernel/dataset/CUB')
-    val_loader = torch.utils.data.DataLoader(val_data, batch_size = 64, shuffle=False, num_workers=8)
-    
-    #prepare for training class camat
-    class_description_train = train_data.get_class_attribute(True)
-    
-    #prepare for testing class camat
-    class_description_val = val_data.get_class_attribute(True)
-    
-    attribute_name = train_data.attribute_name
-    
-    attribute_part_label = train_data.attribute_part_label
-
+    print('Loading Data ...')    
     #pre-extract for feature
-    try:
-        print('restoring features...')
-        with open('./data/CUB/Res101_patch_features.pickle','rb') as f:
-            db = pickle.load(f)
-        trX_collect = db['trainval_X']
-        trY_collect = db['trainval_Y']
-        trP_collect = db['trainval_P']
-        trA_collect = db['trainval_A']
-        valX_collect = db['test_X']
-        valY_collect = db['test_Y'] 
-        valP_collect = db['test_P'] 
-        valA_collect = db['test_A'] 
-    
+    #try:
+    with open('./data/CUB/cub_info.pickle','rb') as f:
+        db = pickle.load(f)
+    class_description_train = db['class_description_train']
+    class_description_val = db['class_description_val']
+    attribute_name = db['attribute_name']
+    attribute_part_label = db['attribute_part_label']
+    print('restoring features...')
+    with open('./data/CUB/Res101_patch_features.pickle','rb') as f:
+        db = pickle.load(f)
+    trX_collect = db['trainval_X']
+    trY_collect = db['trainval_Y']
+    trP_collect = db['trainval_P']
+    trA_collect = db['trainval_A']
+    valX_collect = db['test_X']
+    valY_collect = db['test_Y'] 
+    valP_collect = db['test_P'] 
+    valA_collect = db['test_A'] 
+    '''
     except:
+        train_data = cub_dataloader.Class_Dataset('train_val', renumber=True, dataset_root_path='/eva_data/hdd4/yu_hsuan_li/logic_kernel/dataset/CUB')
+        train_loader = torch.utils.data.DataLoader(train_data, batch_size = 64, shuffle=True, num_workers=8)
+        val_data = cub_dataloader.Class_Dataset('test_unseen', renumber=True, dataset_root_path='/eva_data/hdd4/yu_hsuan_li/logic_kernel/dataset/CUB')
+        val_loader = torch.utils.data.DataLoader(val_data, batch_size = 64, shuffle=False, num_workers=8)
         extractor = encoder.encoder(fix_weight=True).eval().cuda()    
         print('extracting training features...')
         trX_collect = []
@@ -109,7 +102,7 @@ def get_CUB_dataset():
                    'test_P':valP_collect,
                    'test_A':valA_collect,}
             pickle.dump(db, f)
-    
+    '''
     return trX_collect, \
             trY_collect, \
             trP_collect, \
@@ -194,27 +187,4 @@ def get_alpha_CLEVR_dataset(info_path = None): #依照GZSL分類
             test_unseenY_collect, \
             test_unseenP_collect, \
             test_unseenA_collect, \
-
-
-def L1(pred,y):
-    return torch.mean(torch.sum(torch.abs(pred-y),-1))
-
-def CE(pred,y, balanced=False):
-    if balanced:
-         return torch.sum(-y*torch.log(torch.clamp(pred,1e-6,1e+6)))/(torch.sum(y)+1e-6) +torch.sum(-(1-y)*torch.log(torch.clamp(1-pred,1e-6,1e+6)))/(torch.sum(1-pred)+1e-6)
-
-    return torch.mean(torch.sum(-y*torch.log(torch.clamp(pred,1e-6))-(1-y)*torch.log(torch.clamp(1-pred,1e-6)),-1))
-
-def turn_parts_to_picknum(parts):
-    '''
-    parts: 32X15X3
-    return: 32X15
-    '''
-    part = parts.clone()
-    part[:, :, :2] = part[:, :, :2]/32
-    part[:, :, 0] = (part[:, :, 0]).to(int)*7 + (part[:, :, 1]).to(int)
-    part[:, :, 1] = part[:, :, 2]
-    part[:, :, 0] = torch.where(part[:, :, 1] != 0, part[:, :, 0], -1+0*part[:, :, 0])
-    #part[no_att_idx, 0] = -1
-    return part[:, :, 0]
 

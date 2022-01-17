@@ -124,18 +124,24 @@ def get_att_score(x, a, should_be_peak=np.array([])):
     attention = torch.sigmoid(attention)
     return att_score, attention
 
-def get_312_attribute_name(path = '/eva_data/hdd4/yu_hsuan_li/logic_kernel/dataset/CUB/CUB_200_2011/attributes.txt'):
+def get_cub_attribute_name(path = './data/CUB/attributes.txt'):
+    '''
+    path: str
+    (for cub dataset only)
+    '''
     file = open(path, 'r')
     name = []
     for line in file:
         name.append(line)
     return name
 
-def get_part_and_adj_dicts(path = '/eva_data/hdd4/yu_hsuan_li/logic_kernel/dataset/CUB/CUB_200_2011/attributes.txt'):
-    '''
+def get_part_and_adj_dicts(path = './data/CUB/attributes.txt'):
+    ''' 
+    path: str
     return: 
         parts: dict
-        adj: dict                                          
+        adj: dict 
+    (for cub dataset only)
     '''
     file = open(path, 'r')
     parts = {}
@@ -225,18 +231,25 @@ def get_part_and_adj_dicts(path = '/eva_data/hdd4/yu_hsuan_li/logic_kernel/datas
     return parts, adjs
 
 
-def get_base_attribute_name():
+def get_base_attribute_name(data_type='CUB'):
     '''
+    data_type: str, the datest we use (CUB or ɑ-CLEVR)
     return: list, a list of base attribute 
-    '''    
-    parts, adjs = get_part_and_adj_dicts()    
-    parts_list = [key for key in parts]
-    adjs_list = [key for key in adjs] 
-    return parts_list + adjs_list #len:88
-
-def get_combinations(path = '/eva_data/hdd4/yu_hsuan_li/logic_kernel/dataset/CUB/CUB_200_2011/attributes.txt'):
+    '''   
+    if data_type == 'CUB':
+        parts, adjs = get_part_and_adj_dicts()    
+        parts_list = [key for key in parts]
+        adjs_list = [key for key in adjs] 
+        return parts_list + adjs_list #len:88
+    elif data_type == 'alpha-CLEVR':
+        element_name = ['cube', 'cylinder', 'sphere', 'gray', 'red', 'blue', 'green', 'brown', 'purple', 'cyan', 'yellow']
+        return element_name
+    
+def get_combinations(path = './data/CUB/attributes.txt'):
     '''
-    return: 2d list (len=312X2)
+    path: str
+    return: 2d list (len=312X2) 
+    (for cub dataset only)
     '''
     parts, adjs = get_part_and_adj_dicts()
     combinations = []
