@@ -18,7 +18,7 @@ Activate the environment ZSLA
 conda activate ZSLA
 ```
 ## data download
-Download the image features of [CUB](https://drive.google.com/file/d/13uPDFTAQIo8s858nKhL5dLpicGY10Wav/view) or [ɑ-CLEVR](https://drive.google.com/file/d/1h7GkU4z3bUNIUnXm8esS14WA-xexCif5/view) and put them in under the path: ZSLA/data/CUB or ZSLA/data/alpha-CLEVR respectively.
+Download the image features of [CUB](https://drive.google.com/file/d/13uPDFTAQIo8s858nKhL5dLpicGY10Wav/view) or [ɑ-CLEVR](https://drive.google.com/file/d/1h7GkU4z3bUNIUnXm8esS14WA-xexCif5/view) extracted by Resnet101 (pretrained on ImageNet) and put them in under the path: ZSLA/data/CUB or ZSLA/data/alpha-CLEVR respectively.
 ## run
 Go to the ZSLA folder
 ```bash
