@@ -9,7 +9,11 @@ git clone https://github.com/evaProjectARICL/ZSLA.git
 ```
 
 ## enviroment setting
-First install anaconda and then create a enviroment, whose name is ZSLA (set in the first line of yaml file)
+Go to the ZSLA folder
+```bash
+cd ZSLA
+```
+Install anaconda and then create a enviroment, whose name is ZSLA (set in the first line of yaml file)
 ```bash
 conda env create -f environment.yml
 ```
@@ -20,10 +24,7 @@ conda activate ZSLA
 ## data download
 Download the image features of [CUB](https://drive.google.com/file/d/13uPDFTAQIo8s858nKhL5dLpicGY10Wav/view) or [ɑ-CLEVR](https://drive.google.com/file/d/1h7GkU4z3bUNIUnXm8esS14WA-xexCif5/view) extracted by Resnet101 (pretrained on ImageNet) and put them in under the path: ZSLA/data/CUB or ZSLA/data/alpha-CLEVR respectively.
 ## run
-Go to the ZSLA folder
-```bash
-cd ZSLA
-```
+
 ### run ZSLA
 Their are two stages in ZSLA, the first stage is to obtain the seen attribute directors and the second stage is to train intersection/union models and use them to syntheize the unseen attribute directors.
 Here we use CUB dataset as example:
@@ -31,39 +32,39 @@ Here we use CUB dataset as example:
 If want to run ɑ-CLEVR dataset, add --data_type=alpha-CLEVR and change the cpt_weight from 0.2 to 1 (--cpt_weight=1)  
 train: 
 ```bash
-python main.py --device=cuda:5 --stage=1 --is_normalized --is_abs --use_location_info --cpt_weight=0.2 --umc_start=0  --output_PATH=./stage1_cub
+python main.py --device=cuda:5 --stage=1 --is_normalized --is_abs --use_location_info --cpt_weight=0.2 --umc_start=0  --output_PATH=./output/stage1_cub
 ```
 test: 
 ```bash
-python main.py --test --device=cuda:5 --stage=1  --is_normalized --is_abs --attributes_PATH=./stage1_cub/classifier_10000.pth
+python main.py --test --device=cuda:5 --stage=1  --is_normalized --is_abs --attributes_PATH=./output/stage1_cub/classifier_10000.pth
 ```
 #### stage 2
 train: 
 ```bash
-python main.py --device=cuda:5 --stage=2 --is_normalized --is_abs --attributes_PATH=./stage1_cub/classifier_10000.pth --output_PATH=./stage2_cub
+python main.py --device=cuda:5 --stage=2 --is_normalized --is_abs --attributes_PATH=./output/stage1_cub/classifier_10000.pth --output_PATH=./output/stage2_cub
 ```
 
 test: 
 ```bash
-python main.py --test --device=cuda:5 --stage=2 --gate_PATH=./stage2_cub/model_200000.pth
+python main.py --test --device=cuda:5 --stage=2 --gate_PATH=./output/stage2_cub/model_200000.pth
 ```
 ### run baseline
 #### A-ESZSL
 train: 
 ```bash
-python main.py --baseline --method=A-ESZSL --device=cuda:5 --use_location_info --output_PATH=./A_ESZSL_cub 
+python main.py --baseline --method=A-ESZSL --device=cuda:5 --use_location_info --output_PATH=./output/A_ESZSL_cub 
 ```
 test: 
 ```bash
-python main.py --test --baseline --method=A-ESZSL --device=cuda:5 --use_location_info --baseline_PATH=./A_ESZSL_cub/model_5000.pth
+python main.py --test --baseline --method=A-ESZSL --device=cuda:5 --use_location_info --baseline_PATH=./output/A_ESZSL_cub/model_5000.pth
 ```
 #### A-LAGO
 train: 
 ```bash
-python main.py --baseline --method=A-LAGO --device=cuda:5 --use_location_info --output_PATH=./A_LAGO_cub 
+python main.py --baseline --method=A-LAGO --device=cuda:5 --use_location_info --output_PATH=./output/A_LAGO_cub 
 ```
 test: 
 ```bash
-python main.py --test --baseline --method=A-LAGO --device=cuda:5 --use_location_info --baseline_PATH=./A_LAGO_cub/model_5000.pth
+python main.py --test --baseline --method=A-LAGO --device=cuda:5 --use_location_info --baseline_PATH=./output/A_LAGO_cub/model_5000.pth
 ```
 
