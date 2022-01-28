@@ -131,15 +131,15 @@ class Trainer(object):
         '''
         if(os.path.isdir(self.output_PATH)==False):
             os.mkdir(self.output_PATH)
-        elif self.output_PATH != '/eva_data/hdd4/yu_hsuan_li/logic_kernel/output/' + 'test':
+        else: #if self.output_PATH != '/eva_data/hdd4/yu_hsuan_li/logic_kernel/output/' + 'test':
             print('have the folder already')
             exit(0)
         self.logger = utils.Tensorboard(self.output_PATH+'/logdir')
         backup_dir = os.path.join(self.output_PATH, 'backup_files')
-        os.makedirs(backup_dir, exist_ok=True)
-        os.system('cp *.py %s/' % backup_dir)
-        os.system('cp *.ipynb %s/' % backup_dir)
-        os.system('cp -r ./networks %s/' % backup_dir)
+        #os.makedirs(backup_dir, exist_ok=True)
+        #os.system('cp *.py %s/' % backup_dir)
+        #os.system('cp *.ipynb %s/' % backup_dir)
+        #os.system('cp -r ./networks %s/' % backup_dir)
         
         '''
         training
