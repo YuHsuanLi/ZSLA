@@ -1,7 +1,7 @@
 # ZSLA
 This project is the author implementation of [Make an Omelette with Breaking Eggs:Zero-Shot Learning for Novel Attribute Synthesis](https://arxiv.org/abs/2111.14182)
 
-<img src="https://github.com/YuHsuanLi/ZSLA/blob/gh-pages/static/fig/_teaser.png" with="300" heigh="300">
+<img src="https://github.com/YuHsuanLi/ZSLA/blob/gh-pages/static/fig/teaser_.png" with="300" heigh="300">
 
 # Installation
 ## clone the project
